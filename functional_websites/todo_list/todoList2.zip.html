@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待办札记</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        html {
+            scrollbar-width: thin;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .no-select {
+            user-select: none;
+        }
+        .container {
+            max-width: 1200px;
+            width: 90vw;
+            margin: 15px auto;
+            margin-top: 65px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+        .add-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            display: block;
+            margin: 0 auto 30px;
+            transition: background-color 0.3s ease;
+        }
+        .add-btn:hover {
+            background-color: #2980b9;
+        }
+        .add-btn:disabled {
+            background-color: #60a3cf;
+            cursor: not-allowed;
+        }
+        .todo-form {
+            display: none;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .submit-btn,
+        .cancel-btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .submit-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+        }
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+        .cancel-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+        .todo-lists {
+            margin-top: 30px;
+        }
+        .subject-group {
+            margin-bottom: 30px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .subject-title {
+            background-color: #5d7489;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .todo-items {
+            list-style: none;
+        }
+        .todo-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 20px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        .todo-item:hover {
+            background-color: #f9f9f9;
+        }
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        .todo-content {
+            word-break: break-word;
+        }
+        .todo-deadline {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        .delete-btn:hover {
+            color: #c0392b;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: #7f8c8d;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #bdc3c7;
+        }
+        .record-info {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        .record-info a {
+            color: inherit;
+        }
+        .delete-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100px;
+            height: 30px;
+        }
+        .confirm-buttons {
+            display: none;
+            gap: 8px;
+        }
+        .confirm-btn,
+        .abort-btn {
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .confirm-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .confirm-btn:hover {
+            background-color: #c0392b;
+        }
+        .abort-btn {
+            background-color: #bdc3c7;
+            color: white;
+        }
+        .abort-btn:hover {
+            background-color: #95a5a6;
+        }
+        #tipsPopupForFirstVisit,
+        #tipsPopupForBackup {
+            display: none;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        #tipsPopupForBackup {
+            z-index: 828;
+        }
+        .popup-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+            max-height: 80vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .popup-title {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            padding: 20px 20px 10px;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+        }
+        .popup-tips {
+            color: #555;
+            line-height: 1.8;
+            padding: 20px 30px;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+        }
+        .popup-tips p {
+            margin-bottom: 13px;
+        }
+        .popup-tips p:last-child {
+            margin-bottom: 0;
+        }
+        .close-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 15px auto 20px;
+            transition: background-color 0.3s ease;
+        }
+        .close-btn:hover {
+            background-color: #2980b9;
+        }
+        #tips-for-backup {
+            --h: 35px;
+            height: var(--h);
+            width: 50px;
+            line-height: var(--h);
+            text-align: center;
+            position: absolute;
+            top: -58px;
+            right: 15px;
+            font-size: 16px;
+            text-decoration: underline dashed;
+            cursor: pointer;
+        }
+        .decoration {
+            text-decoration: underline solid;
+            text-underline-offset: 2px;
+        }
+        .shake {
+            animation: shake 1s linear;
+            border: 1px solid #aaa;
+        }
+        .white-before-_5 {
+            padding-left: 0.5rem;
+        }
+        .white-before-2 {
+            padding-left: 2rem;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            .todo-item {
+                grid-template-columns: 1fr;
+                gap: 3px;
+            }
+            .todo-item>div {
+                margin-bottom: 8px;
+            }
+            .todo-item>div:last-child {
+                margin-bottom: 0;
+            }
+            .form-actions {
+                flex-direction: column;
+            }
+            .submit-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+            .record-info {
+                font-size: 0.75rem;
+            }
+            .delete-container {
+                width: auto;
+                justify-content: end;
+            }
+            .todo-deadline {
+                text-align: start;
+            }
+            .popup-content {
+                width: 90%;
+                max-height: 70vh;
+            }
+            .popup-title {
+                font-size: 1.3rem;
+                padding: 15px 15px 10px;
+            }
+            .popup-tips {
+                padding: 15px 23px;
+                font-size: 0.95rem;
+            }
+        }
+        @media (max-width: 425px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 23px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-overlay" id="tipsPopupForFirstVisit">
+        <div class="popup-content">
+            <h3 class="popup-title">使用提示</h3>
+            <div class="popup-tips">
+                <p>1. 点击"添加事项"按钮可以创建新的待办任务</p>
+                <p>2. 每个任务需要填写分类<strong>（不可输入纯数字）</strong>、内容和截止日期</p>
+                <p>3. 任务会按照分类进行分组显示，同一分类下的任务按截止日期排序</p>
+                <p>4. 点击垃圾桶图标可以删除任务，删除前需要确认</p>
+                <p>5. 所有任务会保存在本地，刷新页面后不会丢失</p>
+                <p>6. 截止日期默认设置为明天，可根据需要修改</p>
+                <p>7. 清除浏览器缓存会导致任务丢失，备份与恢复方式请点击页面顶部的 tips 查看</p>
+                <p>8. 该使用提示只会在初次使用时显示一次，后续不再展示</p>
+            </div>
+            <button class="close-btn" id="closePopupForFirstVisit">关闭</button>
+        </div>
+    </div>
+    <div class="popup-overlay" id="tipsPopupForBackup">
+        <div class="popup-content">
+            <h3 class="popup-title">关于备份的提示</h3>
+            <div class="popup-tips">
+                <p>请在清除浏览器缓存前自行备份，否则所有数据均会丢失；<br>
+                    以下所有的操作均需要在<strong>“添加事项”的表单</strong>中操作，按照下方提示填入对应的字符串并点击“保存”即可；“截止日期”一栏不参与此过程。
+                </p>
+                <p>
+                    <span><strong>获取备份数据：</strong></span><br>
+                    <span class="white-before-2">分类：@get</span><br>
+                    <span class="white-before-2">内容：必须为空</span><br>
+                    <span class="white-before-_5">*&nbsp;数据会被展示在“内容”一栏，并自动保存至剪切板</span>
+                </p>
+                <p>
+                    <span><strong>恢复数据：</strong></span><br>
+                    <span class="white-before-2">分类：@set</span><br>
+                    <span class="white-before-2">内容：待录入的数据</span><br>
+                </p>
+                <p>
+                    <span><strong>清除所有数据：</strong></span><br>
+                    <span class="white-before-2">分类：@clear</span><br>
+                    <span class="white-before-2">内容：confirm</span><br>
+                    <span class="white-before-_5">*&nbsp;清空的内容包括访问数据与待办事项数据</span>
+                </p>
+            </div>
+            <button class="close-btn" id="closePopupForBackup">关闭</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="methry no-select" id="tips-for-backup">Tips</div>
+        <h1 class="no-select"><i class="fas fa-clipboard-list"></i> 待办事项</h1>
+        <button class="add-btn no-select" id="addBtn"><i class="fas fa-plus"></i> 添加事项</button>
+        <form class="todo-form" id="todoForm" autocomplete="off">
+            <div class="form-group">
+                <label for="subject" class="no-select">分类</label>
+                <input type="text" id="subject" placeholder="请输入分类...">
+            </div>
+            <div class="form-group">
+                <label for="content" class="no-select">内容</label>
+                <textarea id="content" placeholder="请输入内容..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="deadline" class="no-select">截止日期</label>
+                <input type="date" id="deadline">
+            </div>
+            <div class="form-actions">
+                <button type="button" class="cancel-btn no-select" id="cancelBtn">取消</button>
+                <button type="submit" class="submit-btn no-select">保存</button>
+            </div>
+        </form>
+        <div class="todo-lists" id="todoLists"></div>
+    </div>
+    <div class="record-info no-select">
+        <span>&copy;&nbsp;2025&nbsp;</span>
+        <a href="https://luxmeth.cn" target="_blank" rel="noopener noreferrer">Luxmeth</a>
+        <span style="font-weight: bold;">&nbsp;&middot;&nbsp;</span>
+        <a href="https://beian.miit.gov.cn" class="luxmeth" target="_blank"
+            rel="noopener noreferrer">苏ICP备2025181248号</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const a = document.getElementById('addBtn');
+            const b = document.getElementById('todoForm');
+            const c = document.getElementById('cancelBtn');
+            const d = document.getElementById('todoLists');
+            const e = document.getElementById('subject');
+            const f = document.getElementById('content');
+            const g = document.getElementById('deadline');
+            const h = 'workTodos';
+            a.addEventListener('click', () => {
+                const i = new Date();
+                i.setDate(i.getDate() + 1);
+                const j = i.toISOString().slice(0, 10);
+                g.value = j;
+                b.style.display = 'block';
+                e.focus();
+                a.disabled = true;
+            });
+            c.addEventListener('click', () => {
+                b.reset();
+                b.style.display = 'none';
+                a.disabled = false;
+            });
+            function k(l) {
+                if (l.classList.contains('shake')) return;
+                l.classList.add('shake');
+                setTimeout(() => {
+                    l.classList.remove('shake');
+                }, 1100);
+            }
+            function m(n) {
+                const o = "请注意，数据写入剪切板失败，请自行复制";
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(n)
+                        .catch(m28 => {
+                            alert(o);
+                        });
+                } else {
+                    alert(o);
+                }
+            }
+            function p(q) {
+                if (q === '[]') {
+                    return { valid: true, message: 'clear' };
+                }
+                let r;
+                try {
+                    r = JSON.parse(q);
+                } catch (l8) {
+                    return { valid: false, message: '不是有效的JSON格式' };
+                }
+                if (!Array.isArray(r)) {
+                    return { valid: false, message: 'JSON解析结果不是数组' };
+                }
+                const s = ['id', 'subject', 'content', 'deadline'];
+                const t = [];
+                for (let u = 0; u < r.length; u++) {
+                    const v = r[u];
+                    if (typeof v !== 'object' || v === null || Array.isArray(v)) {
+                        return { valid: false, message: `数组第${u + 1}项不是对象` };
+                    }
+                    const w = Object.keys(v);
+                    for (const x of w) {
+                        if (!s.includes(x)) {
+                            return {
+                                valid: false,
+                                message: `数组第${u + 1}项包含多余字段: ${x}（仅允许${s.join('、')}）`
+                            };
+                        }
+                    }
+                    for (const x of s) {
+                        if (!w.includes(x)) {
+                            return { valid: false, message: `数组第${u + 1}项缺少字段: ${x}` };
+                        }
+                    }
+                    const y = ['id', 'subject', 'content'];
+                    for (const x of y) {
+                        if (typeof v[x] !== 'string') {
+                            return { valid: false, message: `数组第${u + 1}项的${x}不是字符串` };
+                        }
+                    }
+                    if (a8(v.subject)) {
+                        return {
+                            valid: false,
+                            message: `数组第${u + 1}项的subject不能是纯数字`
+                        };
+                    }
+                    if (t.includes(v.id)) {
+                        const z = t.indexOf(v.id) + 1;
+                        return {
+                            valid: false,
+                            message: `数组第${u + 1}项的id与第${z}项的id重复（值为: "${v.id}"）`
+                        };
+                    }
+                    t.push(v.id);
+                    const a1 = v.deadline;
+                    const a2 = /^\d{4}-\d{2}-\d{2}$/;
+                    if (!a2.test(a1)) {
+                        return { valid: false, message: `数组第${u + 1}项的deadline格式错误（需YYYY-MM-DD）` };
+                    }
+                    const a3 = a1.split('-').map(Number);
+                    const a4 = a3[0];
+                    const a5 = a3[1] - 1;
+                    const a6 = a3[2];
+                    const a7 = new Date(a4, a5, a6);
+                    if (
+                        a7.getFullYear() !== a4 ||
+                        a7.getMonth() !== a5 ||
+                        a7.getDate() !== a6
+                    ) {
+                        return { valid: false, message: `数组第${u + 1}项的deadline是无效日期` };
+                    }
+                }
+                return { valid: true, message: 'ok' };
+            }
+            function a8(a9) {
+                return /^\d+$/.test(a9);
+            }
+            b.addEventListener('submit', (b1) => {
+                b1.preventDefault();
+                const b2 = e.value.trim();
+                const b3 = f.value.trim();
+                const b4 = g.value;
+                if (b2 === "@get") {
+                    if (e.value !== "@get") {
+                        e.value = e.value + '   ← 不要加入空白字符';
+                        k(e);
+                        return;
+                    }
+                    if (f.value === '') {
+                        e.value = '';
+                        let b5 = localStorage.getItem(h) || "无数据";
+                        if (b5 === '[]') {
+                            b5 = "无数据";
+                        }
+                        f.value = b5;
+                        m(b5);
+                    } else {
+                        k(f);
+                    }
+                    return;
+                }
+                if (b2 === "@set") {
+                    if (e.value !== "@set") {
+                        e.value = e.value + '   ← 不要加入空白字符';
+                        k(e);
+                        return;
+                    }
+                    if (b3) {
+                        const b6 = p(b3);
+                        if (b6.valid) {
+                            localStorage.setItem(h, b3);
+                            if (b6.message === 'ok') {
+                                alert("信息录入成功");
+                            } else {
+                                alert("信息重置成功");
+                            }
+                            c.click();
+                            b7();
+                        } else {
+                            alert("录入错误：" + b6.message);
+                        }
+                    } else {
+                        k(f);
+                    }
+                    return;
+                }
+                if (b2 === "@clear") {
+                    if (e.value !== "@clear") {
+                        e.value = e.value + '   ← 不要加入空白字符';
+                        k(e);
+                        return;
+                    }
+                    if (f.value === 'confirm') {
+                        localStorage.removeItem(h);
+                        localStorage.removeItem("hasVisited");
+                        alert("已清除数据，即将刷新页面。");
+                        history.go(0);
+                    } else {
+                        k(f);
+                    }
+                    return;
+                }
+                if (b2 && b3 && b4) {
+                    if (a8(b2)) {
+                        e.value = e.value + '   ← 不可为纯数字';
+                        k(e);
+                        return;
+                    }
+                    b8(b2, b3, b4);
+                    b.reset();
+                    b.style.display = 'none';
+                    a.disabled = false;
+                } else {
+                    const b9 = [e, f, g];
+                    [b2, b3, b4].forEach((c0, c1) => {
+                        if (!c0) { k(b9[c1]); }
+                    })
+                }
+            });
+            function c2() {
+                const c3 = localStorage.getItem(h);
+                return c3 ? JSON.parse(c3) : [];
+            }
+            function c4(c5) {
+                localStorage.setItem(h, JSON.stringify(c5));
+            }
+            function b8(c6, c7, c8) {
+                const c9 = c2();
+                const d0 = {
+                    id: Date.now().toString(),
+                    subject: c6,
+                    content: c7,
+                    deadline: c8
+                };
+                c9.push(d0);
+                c4(c9);
+                b7();
+            }
+            function d1(d2) {
+                let d3 = c2();
+                d3 = d3.filter(d4 => d4.id !== d2);
+                c4(d3);
+                b7();
+            }
+            function d5(d6) {
+                const d7 = {};
+                const d8 = [...d6].sort((d9, e0) => {
+                    return new Date(d9.deadline) - new Date(e0.deadline);
+                });
+                d8.forEach(e1 => {
+                    if (!d7[e1.subject]) {
+                        d7[e1.subject] = [];
+                    }
+                    d7[e1.subject].push(e1);
+                });
+                return d7;
+            }
+            function e2(e3) {
+                const e4 = new Date(e3);
+                const e5 = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+                const e6 = e5[e4.getDay()];
+                const e7 = e3.replace(/^(\d+)-(\d+)-(\d+)$/, '$1年$2月$3日');
+                return `${e7}，${e6}`;
+            }
+            function b7() {
+                const e8 = c2();
+                const e9 = d5(e8);
+                d.innerHTML = '';
+                if (e8.length === 0) {
+                    d.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>暂无待办事项</h3>
+                            <p>点击"添加事项"按钮开始创建你的第一个待办事项</p>
+                        </div>
+                    `;
+                    return;
+                }
+                Object.keys(e9).forEach(f0 => {
+                    const f1 = document.createElement('div');
+                    f1.className = 'subject-group';
+                    const f2 = document.createElement('div');
+                    f2.className = 'subject-title';
+                    f2.textContent = f0;
+                    f1.appendChild(f2);
+                    const f3 = document.createElement('ul');
+                    f3.className = 'todo-items';
+                    e9[f0].forEach(f4 => {
+                        const f5 = document.createElement('li');
+                        f5.className = 'todo-item';
+                        f5.innerHTML = `
+                            <div class="todo-content">${f4.content}</div>
+                            <div class="todo-deadline">至：${e2(f4.deadline)}</div>
+                            <div class="luxmeth" style="display: none;"></div>
+                            <div class="delete-container">
+                                <button class="delete-btn" data-id="${f4.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <div class="confirm-buttons" data-id="${f4.id}">
+                                    <button class="confirm-btn">确认</button>
+                                    <button class="abort-btn">取消</button>
+                                </div>
+                            </div>
+                        `;
+                        f3.appendChild(f5);
+                    });
+                    f1.appendChild(f3);
+                    d.appendChild(f1);
+                });
+                document.querySelectorAll('.delete-btn').forEach(f6 => {
+                    f6.addEventListener('click', (f7) => {
+                        const f8 = f6.getAttribute('data-id');
+                        f6.style.display = 'none';
+                        document.querySelector(`.confirm-buttons[data-id="${f8}"]`).style.display = 'flex';
+                        f7.stopPropagation();
+                    });
+                });
+                document.querySelectorAll('.confirm-btn').forEach(f9 => {
+                    f9.addEventListener('click', () => {
+                        const g0 = f9.parentElement.dataset.id;
+                        d1(g0);
+                    });
+                });
+                document.querySelectorAll('.abort-btn').forEach(g1 => {
+                    g1.addEventListener('click', () => {
+                        const g2 = g1.parentElement.dataset.id;
+                        g1.parentElement.style.display = 'none';
+                        document.querySelector(`.delete-btn[data-id="${g2}"]`).style.display = 'block';
+                    });
+                });
+            };
+            (function () {
+                b7();
+            })();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            function g3() {
+                const g4 = window.innerWidth;
+                const g5 = document.querySelector('.form-actions');
+                const g6 = document.querySelector('.cancel-btn');
+                const g7 = document.querySelector('.submit-btn');
+                if (g4 <= 425) {
+                    document.documentElement.style.fontSize = '13px';
+                } else {
+                    document.documentElement.style.fontSize = '16px';
+                }
+                if (g4 <= 768) {
+                    g5.removeChild(g6);
+                    g5.removeChild(g7);
+                    g5.appendChild(g7);
+                    g5.appendChild(g6);
+                } else {
+                    g5.removeChild(g7);
+                    g5.removeChild(g6);
+                    g5.appendChild(g6);
+                    g5.appendChild(g7);
+                }
+            }
+            g3();
+            window.addEventListener('resize', g3);
+        });
+        function g8() {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+        }
+        function g9() {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            const h0 = document.getElementById('tipsPopupForFirstVisit');
+            const h1 = document.getElementById('closePopupForFirstVisit');
+            const h2 = "hasVisited";
+            if (!localStorage.getItem(h2)) {
+                h0.style.display = 'flex';
+                g8();
+            } else {
+                h0.style.display = 'none';
+            }
+            h1.addEventListener('click', () => {
+                h0.style.display = 'none';
+                localStorage.setItem(h2, 'true');
+                g9();
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const h3 = document.getElementById('tipsPopupForBackup');
+            const h4 = document.getElementById('closePopupForBackup');
+            const h5 = document.getElementById('tips-for-backup');
+            h5.addEventListener('click', function () {
+                h3.style.display = 'flex';
+                g8();
+            });
+            h4.addEventListener('click', () => {
+                h3.style.display = 'none';
+                g9();
+            });
+        });
+    </script>
+</body>
+</html>

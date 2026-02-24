@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation page</title>
+    <link rel="icon" href="./icon/map.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            color: black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:focus {
+            outline: 2px solid #8a7bff35;
+            outline-offset: 2px;
+            background-color: #eff6ff;
+            border-radius: 4px;
+        }
+
+        .main-container {
+            height: 90%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main-container h1.warn {
+            width: 80%;
+            font-size: 20px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 144px;
+            height: 104px;
+            border-radius: 12px;
+            border: 1px dashed black;
+            transition: 0.2s ease-in-out;
+            pointer-events: none;
+        }
+
+        .link-grid {
+            display: grid;
+            position: relative;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 61.8px 100px;
+            text-align: center;
+        }
+
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 81px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .link-item:hover {
+            opacity: 0.7;
+        }
+
+        .link-item img {
+            margin-bottom: 12px;
+            user-select: none;
+        }
+
+        .link-item span {
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .footer-container {
+            height: 10%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-line {
+            font-size: 0;
+        }
+
+        .footer-line span,
+        .footer-line a {
+            font-size: 13px;
+        }
+
+        ::selection {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .footer-line a::selection {
+            text-decoration: underline dashed black;
+            text-underline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="link-grid">
+            <div class="block"></div>
+            <a href="https://www.doubao.com/chat/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/doubao.svg" alt="doubao" width="42">
+                <span>豆包</span>
+            </a>
+            <a href="https://chat.deepseek.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/deepseek.svg" alt="deepseek" width="55">
+                <span>deepseek</span>
+            </a>
+            <a href="https://chatgpt.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/chatgpt.svg" alt="chatgpt" width="42">
+                <span>ChatGPT</span>
+            </a>
+            <a href="https://gemini.google.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/gemini.svg" alt="Gemini" width="42">
+                <span>Gemini</span>
+            </a>
+            <a href="https://leetcode.cn/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/leetcode.svg" alt="LeetCode" width="42">
+                <span>力扣</span>
+            </a>
+            <a href="https://www.aliyun.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/aliyun.svg" alt="Aliyun" width="42">
+                <span>阿里云</span>
+            </a>
+            <a href="https://github.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/github.svg" alt="GitHub" width="47">
+                <span>GitHub</span>
+            </a>
+            <a href="https://aistudio.google.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/aistudio.png" alt="googleAIstudio" width="42">
+                <span>AI studio</span>
+            </a>
+            <a href="https://www.ujs.edu.cn/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/ujs.png" alt="ujs" width="42">
+                <span>江苏大学</span>
+            </a>
+            <a href="https://www.iconfont.cn/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/iconfont.svg" alt="iconfont" width="40">
+                <span>iconfont</span>
+            </a>
+            <a href="https://www.drawio.com/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/drawio.svg" alt="drawio" width="42">
+                <span>drawio</span>
+            </a>
+            <a href="https://developer.mozilla.org/zh-CN/" class="link-item" target="_blank" rel="noopener noreferrer">
+                <img src="./svg/mdn.ico" alt="mdn" width="44">
+                <span>MDN</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="footer-container">
+        <div class="footer-line">
+            <span>Copyright&nbsp;&copy;&nbsp;2025&nbsp;</span>
+            <a href="https://luxmeth.cn" target="_blank" rel="noopener noreferrer">Luxmeth</a>
+            <span style="font-weight: bold;">&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+            <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">苏ICP备2025181248号</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const $ = (Methry) => document.querySelector(Methry);
+            const $$ = (qzddmyc) => document.querySelectorAll(qzddmyc);
+            const _ = {
+                block: $('.block'),
+                gridContainer: $('.link-grid'),
+                mainContainer: $('.main-container'),
+            }
+
+            if (window.innerWidth < 768) {
+                _.mainContainer.innerHTML = '';
+                const dom = document.createElement('h1');
+                dom.innerText = '请使用PC端打开此页面';
+                dom.classList.add('warn');
+                _.mainContainer.appendChild(dom);
+                return;
+            }
+
+            !function () {
+                try {
+                    const I = 'initial';
+                    const keys = ['rowGap', 'columnGap'];
+                    const obj = {};
+                    keys.forEach((key) => {
+                        const v = localStorage.getItem(key);
+                        obj[key] = v || I;
+                        if (!v) localStorage.setItem(key, I);
+                    });
+                    if (obj.rowGap !== I) _.gridContainer.style.rowGap = obj.rowGap;
+                    if (obj.columnGap !== I) _.gridContainer.style.columnGap = obj.columnGap;
+                } catch (err) {
+                    console.warn(err);
+                };
+            }();
+
+            !function () {
+                const offsetVertical = 11.5;
+                const offsetHorizontal = 12;
+                $$('.link-item').forEach((item) => {
+                    item.addEventListener('mouseenter', (e) => {
+                        if (e.target.matches(':focus')) return;
+                        _.block.style.opacity = 1;
+                        _.block.style.top = e.target.offsetTop - offsetVertical + 'px';
+                        _.block.style.left = e.target.offsetLeft - offsetHorizontal + 'px';
+                    });
+                    item.addEventListener('mouseleave', (e) => {
+                        _.block.style.opacity = 0;
+                    });
+                    item.addEventListener('focus', (e) => {
+                        const c = getComputedStyle(_.block);
+                        if (c.opacity === '0') return;
+                        if (c.top !== e.target.offsetTop - offsetVertical + 'px') return;
+                        if (c.left !== e.target.offsetLeft - offsetHorizontal + 'px') return;
+                        _.block.style.opacity = 0;
+                    });
+                });
+            }();
+
+            !function () {
+                try {
+                    const name = 'usageTimes';
+                    const cnt = localStorage.getItem(name);
+                    if (!cnt || !/^\d+$/.test(cnt)) localStorage.setItem(name, '1');
+                    else localStorage.setItem(name, +cnt + 1);
+                } catch (err) {
+                    console.warn(err);
+                }
+            }();
+
+            !function () {
+                const cols = 4;
+                const items = Array.from($$('.link-item'));
+                const total = items.length;
+                $$('a:not(.link-item)').forEach((el) => el.setAttribute('tabindex', '-1'));
+                document.addEventListener('keydown', function (e) {
+                    if (!['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+                    const activeEl = document.activeElement;
+                    const idx = items.indexOf(activeEl);
+                    if (idx === -1) {
+                        e.preventDefault();
+                        items[0].focus();
+                        return;
+                    }
+                    let nextIdx = idx;
+                    if (e.key === 'Tab') {
+                        e.preventDefault();
+                        if (e.shiftKey) nextIdx = idx - 1 < 0 ? total - 1 : idx - 1;
+                        else nextIdx = idx + 1 >= total ? 0 : idx + 1;
+                    } else {
+                        e.preventDefault();
+                        switch (e.key) {
+                            case 'ArrowLeft':
+                                if (idx % cols !== 0) nextIdx = idx - 1;
+                                break;
+                            case 'ArrowRight':
+                                if ((idx + 1) % cols !== 0 && idx + 1 < total) nextIdx = idx + 1;
+                                break;
+                            case 'ArrowUp':
+                                if (idx - cols >= 0) nextIdx = idx - cols;
+                                break;
+                            case 'ArrowDown':
+                                if (idx + cols < total) nextIdx = idx + cols;
+                                break;
+                        }
+                    }
+                    if (nextIdx !== idx) items[nextIdx].focus();
+                });
+            }();
+        });
+    </script>
+</body>
+
+</html>
