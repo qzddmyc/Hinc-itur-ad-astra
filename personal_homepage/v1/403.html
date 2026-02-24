@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>luxmeth - 403</title>
+    <link rel="icon" href="./imgs/favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="/styles/fonts.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .no-select {
+            user-select: none;
+        }
+
+        body {
+            background-color: #f8faff;
+        }
+
+        .container {
+            width: 100%;
+            height: 85vh;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+            box-shadow: inset 0 -80px 80px -80px rgba(138, 123, 255, 0.5);
+        }
+
+        .pre {
+            width: 39%;
+            min-width: 350px;
+            height: 150px;
+            line-height: 150px;
+            text-align: right;
+            font-size: 150px;
+            color: #8a7bff;
+            border-right: 5px solid #8a7bff;
+            padding-right: 5%;
+        }
+
+        .suf {
+            width: 46%;
+            min-width: 470px;
+            height: 120px;
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            flex-wrap: wrap;
+            padding-left: 5%;
+        }
+
+        .suf p,
+        .suf a {
+            height: 30px;
+            line-height: 30px;
+            width: 100%;
+            color: #8a7bff;
+            font-weight: bold;
+        }
+
+        .suf p {
+            white-space: nowrap;
+        }
+
+        .suf a:hover {
+            color: #6854ff;
+        }
+
+        .footer {
+            height: 15vh;
+            min-height: 105px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+            background-color: #a394ff11;
+        }
+
+        .footer .copyright {
+            width: 100%;
+            min-height: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer .copyright .copyright-box {
+            font-size: 12px;
+            line-height: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .footer .copyright .copyright-box p,
+        .footer .copyright .copyright-box a {
+            color: #8a7bff;
+        }
+
+        .footer .copyright .copyright-box a:hover {
+            color: #391fff;
+        }
+
+        :focus-visible {
+            outline: 1px solid #a394ffaa;
+            border-radius: 2px;
+        }
+
+        ::selection {
+            background-color: #8a7bff;
+            color: #f8faff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1a1f2d;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .pre,
+            .suf p,
+            .suf a {
+                color: #00ffe0;
+            }
+
+            .pre {
+                border-right: 5px solid #00ffe0;
+            }
+
+            .suf p,
+            .suf a {
+                font-weight: normal;
+            }
+
+            a:hover {
+                color: #00d7be;
+            }
+
+
+            .footer {
+                background-color: #252b3a;
+                box-shadow: inset 0 15px 15px -15px #000;
+            }
+
+            .footer .copyright .copyright-box p,
+            .footer .copyright .copyright-box a {
+                color: #00ffe0bb;
+            }
+
+            .footer .copyright .copyright-box a:hover {
+                color: #00ffe0;
+            }
+
+            :focus-visible {
+                outline: 1px solid #00ffe088;
+            }
+
+            ::selection {
+                background-color: #00ffe0;
+                color: #1a1f2d;
+            }
+        }
+
+        @media (max-width: 950px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .pre {
+                width: 100%;
+                border: 0;
+                padding: 0;
+                text-align: center;
+                margin-bottom: 50px;
+            }
+
+            .suf {
+                padding: 0;
+                width: 400px;
+                min-width: 400px;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+            .pre {
+                font-size: 100px;
+                margin: 0;
+            }
+
+            .suf {
+                font-size: 15px;
+                width: 295px;
+                min-width: 295px;
+            }
+
+            .suf p,
+            .suf a {
+                height: 25px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .pre {
+                font-size: 75px;
+                min-width: 230px;
+            }
+
+            .suf {
+                font-size: 12px;
+                width: 230px;
+                min-width: 230px;
+            }
+
+            .suf p,
+            .suf a {
+                height: 22px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .footer .copyright .copyright-box1 {
+                margin-bottom: 1px;
+            }
+
+            .footer .copyright .copyright-box2 {
+                display: none;
+            }
+
+            .footer .copyright .copyright-box3 {
+                margin-top: 1px;
+            }
+
+            .footer .copyright {
+                min-height: 30px;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container no-select">
+        <div class="pre titillium-web">403</div>
+        <div class="suf">
+            <p>拒绝访问！你没有查看此页面的用户权限。</p>
+            <p>如果有需要，</p>
+            <p>请通过
+                <a class="titillium-web" href="https://www.luxmeth.cn">https://www.luxmeth.cn</a>
+                访问主页面。
+            </p>
+            <p>同时，请注意该网站的
+                <a class="titillium-web" href="https://www.luxmeth.cn/robots.txt">robots.txt</a>
+                规范。
+            </p>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <div class="copyright-box copyright-box1 no-select">
+                <p>&copy;&nbsp;2025&nbsp;</p>
+                <p>Luxmeth</p>
+            </div>
+            <div class="copyright-box copyright-box2 no-select">
+                <p>&nbsp;&middot;&nbsp;</p>
+            </div>
+            <div class="copyright-box copyright-box3">
+                <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">苏ICP备2025181248号</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

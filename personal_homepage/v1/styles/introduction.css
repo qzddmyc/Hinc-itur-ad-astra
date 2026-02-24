@@ -1,0 +1,228 @@
+.introduction-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.introduce {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.introduction-container .introduce .img-cat-wrapper {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(138, 123, 255, 0.3);
+    transition: 0.2s linear;
+    position: relative;
+    z-index: 1;
+    /* overflow: hidden; */
+}
+
+.introduction-container .introduce .img-cat-wrapper img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 4;
+}
+
+/* 用于遮住图片，防止用户点击时选中 */
+.introduction-container .introduce .img-cat-wrapper::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: transparent;
+}
+
+/* 用于遮住树叶 */
+.introduction-container .introduce .img-cat-wrapper::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    border-radius: inherit;
+    background-color: #f8faff;
+}
+
+.content.dark .introduction-container .introduce .img-cat-wrapper::after {
+    background-color: #1a1f2d;
+}
+
+/* important: Here should use '.hover' added by js! */
+.introduction-container .introduce .img-cat-wrapper.hover {
+    box-shadow: 0 4px 20px rgba(138, 123, 255, 0.5);
+}
+
+.introduction-container .introduce .card {
+    /* width: 550px; */
+    width: 40vw;
+    height: 300px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(138, 123, 255, 0.3);
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    transition: 0.2s linear;
+}
+
+.introduction-container .introduce .card:hover {
+    box-shadow: 0 4px 20px rgba(138, 123, 255, 0.5);
+}
+
+.introduce .card .summary {
+    width: 300px;
+    height: 27px;
+    line-height: 30px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.introduce .card .intro-item {
+    width: 300px;
+    height: 35px;
+    background-color: #f8faffdd;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px rgba(138, 123, 255, 0.6);
+    font-size: 20px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: 0.2s linear;
+}
+
+.introduce .card .intro-item:hover {
+    box-shadow: 2px 2px 4px rgba(138, 123, 255);
+}
+
+.introduce .card .intro-item::before {
+    content: "";
+    position: absolute;
+    left: -1%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background-color: #b8abff;
+    /* background-color: #00E0C6aa; */
+    border-radius: 5px;
+    z-index: -1;
+    transition: 0.2s linear;
+}
+
+.introduce .card .intro-item:hover::before {
+    width: 100px;
+    width: 101%;
+    height: 100%;
+}
+
+.introduce .card .intro-item .left {
+    width: 100px;
+    height: 30px;
+    padding-left: 12px;
+}
+
+.introduce .card .intro-item .right {
+    width: 200px;
+    height: 30px;
+    padding-left: 28px;
+}
+
+@media (max-width: 1000px) {
+    .introduction-container .introduce .img-cat-wrapper {
+        width: 130px;
+        height: 130px;
+    }
+}
+
+@media (max-width: 888px) {
+    .introduce {
+        min-height: 500px;
+        flex-direction: column;
+    }
+
+    .introduction-container .introduce .card {
+        margin-left: 0;
+        margin-top: 40px;
+        width: 80vw;
+        /* transform: scale(0.8); */
+    }
+}
+
+@media (max-width: 500px) {
+    .introduction-container .introduce .img-cat-wrapper {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 460px) {
+    .introduction-container .introduce .card {
+        margin-left: 0;
+        margin-top: 40px;
+        width: 368px;
+    }
+}
+
+@media (max-width: 425px) {
+    .introduce {
+        min-height: 400px;
+        flex-direction: column;
+    }
+
+    .introduction-container .introduce .card {
+        margin-left: 0;
+        margin-top: 20px;
+        transform: scale(0.8);
+    }
+    .introduction-container .introduce .img-cat-wrapper {
+        transform: scale(0.7);
+    }
+}
+
+@media (max-width: 330px) {
+    .introduction-container .introduce .card {
+        margin-left: 0;
+        margin-top: 0;
+        transform: scale(0.6);
+    }
+}
+
+.content.dark .introduction-container .introduce .img-cat-wrapper,
+.content.dark .introduction-container .introduce .card {
+    box-shadow: 0 0 4px #00ffe0;
+}
+
+.content.dark .introduce .card .intro-item {
+    background-color: #252b3abb;
+    box-shadow: 0 0 2px #00ffe0;
+}
+
+.content.dark .introduction-container .introduce .img-cat-wrapper.hover,
+.content.dark .introduction-container .introduce .card:hover,
+.content.dark .introduce .card .intro-item:hover {
+    box-shadow: 0 0 8px #00ffe0;
+}
+
+.content.dark .introduce .card .intro-item::before {
+    background-color: rgb(0, 0, 1);
+}

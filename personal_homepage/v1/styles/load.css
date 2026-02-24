@@ -1,0 +1,150 @@
+.disabled {
+    display: none !important;
+}
+
+.loadingOut {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    position: fixed;
+    z-index: 9999;
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-color: transparent;
+    opacity: 1;
+}
+
+/* ball-size: 16px */
+/* container-size: 230px */
+
+.dots {
+    width: 230px;
+    height: 230px;
+    position: relative;
+    border-radius: 50%;
+}
+
+.dots .dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
+    border-radius: 50%;
+    perspective: 70px;
+    transform-style: preserve-3d;
+}
+
+.dots .dot .bef {
+    top: -100%;
+    animation: moveOutside 2s infinite;
+}
+
+.dots .dot .aft {
+    top: 100%;
+    animation: moveInside 2s infinite;
+}
+
+.dots .dot .bef,
+.dots .dot .aft {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+@keyframes moveOutside {
+    0% {
+        animation-timing-function: ease-in;
+    }
+    25% {
+        transform: translate3d(0, 100%, 16px);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translate3d(0, 200%, 0);
+        animation-timing-function: ease-in;
+    }
+    75% {
+        transform: translate3d(0, 100%, -16px);
+        animation-timing-function: ease-out;
+    }
+}
+
+@keyframes moveInside {
+    0% {
+        animation-timing-function: ease-in;
+    }
+    25% {
+        transform: translate3d(0, -100%, -16px);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translate3d(0, -200%, 0);
+        animation-timing-function: ease-in;
+    }
+    75% {
+        transform: translate3d(0, -100%, 16px);
+        animation-timing-function: ease-out;
+    }
+}
+
+.disappearingLoadingOut {
+    animation: upDisappear 1s forwards;
+}
+
+@keyframes upDisappear {
+    0% {
+    }
+    100% {
+        transform: translateY(-130%);
+    }
+}
+
+.disappearingDots {
+    animation: largen 1s linear forwards;
+}
+
+@keyframes largen {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(10);
+    }
+}
+
+.loadingOut {
+    background-color: #f8faff;
+    box-shadow: 0px 50px 100px #a394ffd6;
+}
+
+.dots .dot .bef {
+    background-color: #a394ff;
+}
+
+.dots .dot .aft {
+    background-color: #00ffe0;
+}
+
+.loadingOut.dark {
+    background-color: #1a1f2d;
+    box-shadow: 0px 50px 100px #00e0c6d6;
+}

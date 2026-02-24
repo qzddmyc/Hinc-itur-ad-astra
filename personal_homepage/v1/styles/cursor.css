@@ -1,0 +1,49 @@
+.loadingOut,
+.content {
+    cursor: url("../cursors/cursor.svg") 6 3, default;
+}
+
+.loadingOut.dark,
+.content.dark {
+    cursor: url("../cursors/cursor_dark.svg") 6 3, default;
+}
+
+.content .cursor-copy-svg {
+    cursor: url("../cursors/copy.svg") 12 12, pointer;
+}
+
+.content.dark .cursor-copy-svg {
+    cursor: url("../cursors/copy_dark.svg") 12 12, pointer;
+}
+
+.content .cursor-themeChange-svg {
+    cursor: url("../cursors/sun.svg") 16 16, pointer;
+}
+
+.content.dark .cursor-themeChange-svg {
+    cursor: url("../cursors/moon.svg") 15 15, pointer;
+}
+
+.content .cursor-link-svg {
+    cursor: url("../cursors/link.svg") 12 12, pointer;
+}
+
+.content.dark .cursor-link-svg {
+    cursor: url("../cursors/link_dark.svg") 12 12, pointer;
+}
+
+.content .cursor-mailto-svg {
+    cursor: url("../cursors/mailto.svg") 12 12, pointer;
+}
+
+.content.dark .cursor-mailto-svg {
+    cursor: url("../cursors/mailto_dark.svg") 12 12, pointer;
+}
+
+.content .cursor-pointer-svg {
+    cursor: url("../cursors/pointer.svg") 15 8, pointer;
+}
+
+.content.dark .cursor-pointer-svg {
+    cursor: url("../cursors/pointer_dark.svg") 15 8, pointer;
+}

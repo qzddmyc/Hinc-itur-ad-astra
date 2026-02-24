@@ -1,0 +1,139 @@
+/* 引入 Tailwind 的基础样式 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html,
+    body,
+    *,
+    *::before,
+    *::after {
+        cursor: none !important;
+    }
+
+    body {
+        background-color: #050505;
+        color: #e5e5e5;
+        margin: 0;
+        overflow-x: hidden;
+    }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D4AF37;
+}
+
+/* 其他工具类样式 */
+#tsparticles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.text-gold-gradient {
+    background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 200% auto;
+    animation: shine 5s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+.social-icon svg {
+    fill: #666;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover svg {
+    fill: #D4AF37;
+    transform: translateY(-3px) scale(1.1);
+}
+
+.social-icon:active svg {
+    transform: translateY(1px) scale(1.1);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.glass-card:hover {
+    border-color: #D4AF37;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.no-select {
+    user-select: none;
+}
+
+/* 光标样式 */
+#cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #D4AF37;
+    background-color: #D4AF37;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+    will-change: left, top, transform;
+    pointer-events: none;
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+#cursor.hovered {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: 1px solid rgba(212, 175, 55, 0.8);
+    backdrop-filter: blur(1px);
+}
+
+#cursor.hovered:active {
+    width: 35px;
+    height: 35px;
+}
+
+@media (hover: none) {
+    html,
+    body,
+    *,
+    *::before,
+    *::after {
+        cursor: auto !important;
+    }
+
+    #cursor {
+        display: none !important;
+    }
+}
