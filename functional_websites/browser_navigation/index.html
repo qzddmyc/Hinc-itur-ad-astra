@@ -41,6 +41,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         .main-container h1.warn {
@@ -125,6 +126,21 @@
             text-decoration: underline dashed black;
             text-underline-offset: 2px;
         }
+
+        .extra-msg {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .extra-msg a {
+            font-size: 14px;
+            color: #555;
+            width: fit-content;
+        }
     </style>
 </head>
 
@@ -181,6 +197,7 @@
                 <span>S.H.I.T</span>
             </a>
         </div>
+        <div class="extra-msg"></div>
     </div>
 
     <div class="footer-container">
@@ -200,6 +217,7 @@
                 block: $('.block'),
                 gridContainer: $('.link-grid'),
                 mainContainer: $('.main-container'),
+                extraMsgEl: $('.extra-msg'),
             }
 
             if (window.innerWidth < 768) {
@@ -300,6 +318,30 @@
                     }
                     if (nextIdx !== idx) items[nextIdx].focus();
                 });
+            }();
+
+            !function () {
+                try {
+                    const extraMsgToShow = localStorage.getItem('extraMsgData') || null;
+                    if (!extraMsgToShow) return;
+                    const data = JSON.parse(extraMsgToShow);
+                    if (typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid data format');
+                    const entries = Object.entries(data);
+                    if (entries.length === 0) return;
+                    const frag = document.createDocumentFragment();
+                    entries.forEach(([key, value]) => {
+                        const a = document.createElement('a');
+                        a.href = value;
+                        a.target = '_blank';
+                        a.rel = 'noopener noreferrer';
+                        a.innerText = key;
+                        a.tabIndex = -1;
+                        frag.appendChild(a);
+                    });
+                    _.extraMsgEl.appendChild(frag);
+                } catch (err) {
+                    console.warn('Failed to parse extra message data:', err);
+                }
             }();
         });
     </script>
